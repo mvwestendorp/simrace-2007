@@ -1,1 +1,1 @@
-Sitemap: git@github.com:/mvwestendorp/simrace-2007.git/sitemap.xml
+Sitemap: https://github.com/mvwestendorp/simrace-2007/sitemap.xml

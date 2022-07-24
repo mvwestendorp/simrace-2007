@@ -1,19 +1,5 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "simrace",
-    "section": "",
-    "text": "Austria 2022"
-  },
-  {
     "objectID": "austria-2022.html#laptimes-per-driver",
     "href": "austria-2022.html#laptimes-per-driver",
     "title": "Sim race Austria 2022",
@@ -26,5 +12,19 @@
     "title": "Sim race Austria 2022",
     "section": "Race evolution",
     "text": "Race evolution\n\n\n\n\n\nFigure 4: Evolution of time to lead during the race\n\n\n\n\n\n\n\n\nFigure 5: Laptime evolution over the race\n\n\n\n\n\n\n\n\n\nFigure 6: Sector time evolution over the race"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "simrace",
+    "section": "",
+    "text": "Austria 2022"
   }
 ]
