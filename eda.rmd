@@ -1,0 +1,83 @@
+---
+title: "Sim race analyse"
+output: html_notebook
+---
+
+
+```{r}
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(lubridate)
+library(plotly)
+```
+
+```{r}
+df <- read.csv("data/simrace analyse.csv") %>%
+  mutate(laptime = minute(parse_date_time(laptime, "%M:%OS")) * 60 + second(parse_date_time(laptime, "%M:%OS")),
+         Sector_1 = minute(parse_date_time(Sector_1, "%M:%OS")) * 60 + second(parse_date_time(Sector_1, "%M:%OS")),
+         Sector_2 = minute(parse_date_time(Sector_2, "%M:%OS")) * 60 + second(parse_date_time(Sector_2, "%M:%OS")),
+         Sector_3 = minute(parse_date_time(Sector_3, "%M:%OS")) * 60 + second(parse_date_time(Sector_3, "%M:%OS"))) %>%
+  group_by(driver) %>%
+  mutate(round = max(round) - round + 1) %>%
+  arrange(driver,round) %>%
+  ungroup()
+```
+
+```{r}
+df %>%
+group_by(driver) %>%
+summarise(mean_laptime = mean(laptime), median_laptime=median(laptime))
+```
+
+```{r}
+df %>%
+  filter(laptime <= 120) %>%
+  ggplot() +
+  geom_boxplot(aes(x = driver, y = laptime, group = driver)) -> p
+ggplotly(p)
+```
+
+```{r}
+df %>%
+  pivot_longer(c("Sector_1", "Sector_2", "Sector_3")) %>%
+  ggplot() +
+  geom_boxplot(aes(x = driver, y = value, group = driver)) +
+  facet_wrap(~name, ncol = 1, scale = 'free_y')
+```
+```{r}
+df %>%
+  filter(laptime <= 120) %>%
+  group_by(driver) %>%
+  summarise(var = var(laptime)) %>%
+  arrange(var) %>%
+  ggplot() +
+  geom_bar(aes(x = reorder(driver, var), y = var), stat = "identity") +
+  labs(x = "Driver", y = "Variance")
+```
+```{r}
+df %>%
+  group_by(driver) %>%
+  mutate(cumulative_laptime = cumsum(laptime)) %>%
+  group_by(round) %>%
+  mutate(time_to_lead = cumulative_laptime - min(cumulative_laptime)) %>%
+  ungroup() %>%
+  ggplot() +
+  geom_line(aes(x = round, y = time_to_lead, color = driver)) -> p
+ggplotly(p)
+```
+
+```{r}
+df %>%
+  ggplot() +
+  geom_boxplot(aes(x = round, y = laptime, group = round))
+df %>%
+  ggplot() +
+  geom_density(aes(x = laptime, group = round))
+```
+
+```{r}
+df %>%
+  ggplot() +
+  geom_density(aes(x = laptime, group = driver, color = driver))
+```
