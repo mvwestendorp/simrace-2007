@@ -20,10 +20,11 @@ jobs:
           # version: 0.9.600
 
         # add software dependencies here
-      - name: Install debs
+      - name: Install dependencies Ubuntu
         shell: bash
         run: |
           apt-get install libcurl4-openssl-dev -y
+      - name: Set RENV_PATHS_ROOT
         shell: bash
         run: |
           echo "RENV_PATHS_ROOT=${{ runner.temp }}/renv" >> $GITHUB_ENV
