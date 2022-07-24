@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>simrace - Sim race analyse</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="site_libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">simrace</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html">About</a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Sim race analyse</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'lubridate'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    date, intersect, setdiff, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'plotly'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:ggplot2':
+
+    last_plot</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    filter</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:graphics':
+
+    layout</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/simrace analyse.csv"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">laptime =</span> <span class="fu">minute</span>(<span class="fu">parse_date_time</span>(laptime, <span class="st">"%M:%OS"</span>)) <span class="sc">*</span> <span class="dv">60</span> <span class="sc">+</span> <span class="fu">second</span>(<span class="fu">parse_date_time</span>(laptime, <span class="st">"%M:%OS"</span>)),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">Sector_1 =</span> <span class="fu">minute</span>(<span class="fu">parse_date_time</span>(Sector_1, <span class="st">"%M:%OS"</span>)) <span class="sc">*</span> <span class="dv">60</span> <span class="sc">+</span> <span class="fu">second</span>(<span class="fu">parse_date_time</span>(Sector_1, <span class="st">"%M:%OS"</span>)),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">Sector_2 =</span> <span class="fu">minute</span>(<span class="fu">parse_date_time</span>(Sector_2, <span class="st">"%M:%OS"</span>)) <span class="sc">*</span> <span class="dv">60</span> <span class="sc">+</span> <span class="fu">second</span>(<span class="fu">parse_date_time</span>(Sector_2, <span class="st">"%M:%OS"</span>)),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">Sector_3 =</span> <span class="fu">minute</span>(<span class="fu">parse_date_time</span>(Sector_3, <span class="st">"%M:%OS"</span>)) <span class="sc">*</span> <span class="dv">60</span> <span class="sc">+</span> <span class="fu">second</span>(<span class="fu">parse_date_time</span>(Sector_3, <span class="st">"%M:%OS"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(driver) <span class="sc">%&gt;%</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">round =</span> <span class="fu">max</span>(round) <span class="sc">-</span> round <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(driver,round) <span class="sc">%&gt;%</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(driver) <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(<span class="at">mean_laptime =</span> <span class="fu">mean</span>(laptime), <span class="at">median_laptime=</span><span class="fu">median</span>(laptime))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 11 × 3
+   driver  mean_laptime median_laptime
+   &lt;chr&gt;          &lt;dbl&gt;          &lt;dbl&gt;
+ 1 Benoit          71.6           69.6
+ 2 Eelco           76.5           74.9
+ 3 Eerdt           91.8           68.7
+ 4 gerald          74.9           71.5
+ 5 giel            76.0           72.0
+ 6 joyce           77.2           74.6
+ 7 Lieneke         73.8           73.3
+ 8 Mathijs         68.4           67.5
+ 9 Paul            70.2           68.8
+10 rik             79.7           78.8
+11 Roeland         70.3           68.2</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(laptime <span class="sc">&lt;=</span> <span class="dv">120</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> driver, <span class="at">y =</span> laptime, <span class="at">group =</span> driver)) <span class="ot">-&gt;</span> p</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-4ef177da4d638bdc15bf" style="width:100%;height:464px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4ef177da4d638bdc15bf">{"x":{"data":[{"x":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11],"y":[76.1760025024414,69.4820022583008,69.504997253418,70.5869979858398,69.697998046875,79.2300033569336,69.3140029907227,79.3300018310547,69.1370010375977,69.3880004882812,69.3300018310547,69.5540008544922,69.1100006103516,69.2300033569336,73.0080032348633,78.4889984130859,69.9130020141602,69.265998840332,69.7009963989258,71.5070037841797,69.1210021972656,74.5970001220703,83.5029983520508,72.4550018310547,77.8949966430664,73.8050003051758,72.5640029907227,72.0419998168945,94.9710006713867,74.9130020141602,84.0390014648438,73.4909973144531,79.1510009765625,72.2630004882812,80.9509963989258,74.870002746582,77.8929977416992,79.0319976806641,74.4169998168945,77.1709976196289,70.822998046875,70.2770004272461,70.2210006713867,79.0339965820312,67.9410018920898,66.5380020141602,66.4339981079102,68.2649993896484,68.1849975585938,69.629997253418,73.5179977416992,68.7979965209961,89.984001159668,68.5500030517578,67.0169982910156,67.5780029296875,67.1480026245117,80.4150009155273,91.3619995117188,78.8860015869141,73.3499984741211,71.5,70.0439987182617,71.8300018310547,69.7310028076172,73.2279968261719,69.9179992675781,71.2030029296875,69.3570022583008,70.9079971313477,69.6399993896484,68.6210021972656,79.693000793457,84.4540023803711,69.5970001220703,72.2870025634766,69.4199981689453,83.0670013427734,95.3369979858398,87.9509963989258,71.5719985961914,82.9850006103516,77.8710021972656,69.8109970092773,73.1139984130859,71.4850006103516,68.806999206543,68.8809967041016,69.6880035400391,70.0070037841797,95.0120010375977,87.9919967651367,72.0319976806641,72.588996887207,72.0279998779297,73.9209976196289,69.9649963378906,70.6890029907227,69.3560028076172,101.194999694824,82.7119979858398,72.6039962768555,76.9929962158203,73.5950012207031,73.1669998168945,74.0039978027344,95.8509979248047,74.5059967041016,74.6429977416992,72.6490020751953,76.8990020751953,74.0169982910156,74.8130035400391,74.9179992675781,76.8280029296875,76.7890014648438,74.3499984741211,72.7990036010742,99.5619964599609,74.2320022583008,75.6159973144531,86.6579971313477,74.6019973754883,74.7099990844727,75.2220001220703,73.8099975585938,76.3170013427734,74.9739990234375,73.4150009155273,73.4869995117188,73.4520034790039,72.7289962768555,72.6009979248047,70.640998840332,71.6429977416992,71.8150024414062,72.1009979248047,75.6070022583008,72.1780014038086,72.1269989013672,73.2119979858398,71.8300018310547,70.1709976196289,71.7839965820312,67.8050003051758,66.7710037231445,67.1869964599609,67.504997253418,67.0390014648438,67.2919998168945,67.5670013427734,67.1279983520508,67.2220001220703,67.0139999389648,68.2080001831055,69.8369979858398,68.8349990844727,70.6589965820312,66.8679962158203,67.6460037231445,73.8489990234375,66.4820022583008,66.4970016479492,68.4120025634766,74.0110015869141,66.995002746582,78.6039962768555,68.1539993286133,69.0189971923828,69.5940017700195,67.5110015869141,68.3079986572266,67.5800018310547,70.072998046875,67.9729995727539,76.9810028076172,69.447998046875,74.0230026245117,68.8990020751953,69.1989974975586,68.4850006103516,68.75,67.802001953125,70.7070007324219,67.0279998779297,81.504997253418,68.8209991455078,68.8219985961914,68.427001953125,94.234001159668,81.2770004272461,84.5350036621094,71.7050018310547,80.7060012817383,71.6569976806641,83.4199981689453,73.7210006713867,71.9280014038086,88.5,80.2350006103516,87.4710006713867,75.9349975585938,70.4059982299805,99.9769973754883,79.8529968261719,73.1539993286133,78.8479995727539,78.2630004882812,76.2969970703125,72.625,74.0319976806641,67.8040008544922,67.5950012207031,83.3040008544922,68.4869995117188,69.5329971313477,67.1969985961914,68.0810012817383,68.9280014038086,69.5100021362305,75.8310012817383,67.6579971313477,77.1640014648438,81.1350021362305,67.5380020141602,68.2649993896484,68.2080001831055,68.4020004272461,67.318000793457,67.2509994506836,67.9240036010742,67.4150009155273,67.9769973754883],"hoverinfo":"y","type":"box","fillcolor":"rgba(255,255,255,1)","marker":{"opacity":null,"outliercolor":"rgba(0,0,0,1)","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)"},"size":5.66929133858268},"line":{"color":"rgba(51,51,51,1)","width":1.88976377952756},"showlegend":false,"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":26.2283105022831,"r":7.30593607305936,"b":40.1826484018265,"l":43.1050228310502},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,11.6],"tickmode":"array","ticktext":["Benoit","Eelco","Eerdt","gerald","giel","joyce","Lieneke","Mathijs","Paul","rik","Roeland"],"tickvals":[1,2,3,4,5,6,7,8,9,10,11],"categoryorder":"array","categoryarray":["Benoit","Eelco","Eerdt","gerald","giel","joyce","Lieneke","Mathijs","Paul","rik","Roeland"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"driver","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[64.6959480285645,102.93304977417],"tickmode":"array","ticktext":["70","80","90","100"],"tickvals":[70,80,90,100],"categoryorder":"array","categoryarray":["70","80","90","100"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"laptime","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"218e54fed99cf":{"x":{},"y":{},"type":"box"}},"cur_data":"218e54fed99cf","visdat":{"218e54fed99cf":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(<span class="st">"Sector_1"</span>, <span class="st">"Sector_2"</span>, <span class="st">"Sector_3"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> driver, <span class="at">y =</span> value, <span class="at">group =</span> driver)) <span class="sc">+</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>name, <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">scale =</span> <span class="st">'free_y'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 9 rows containing non-finite values (stat_boxplot).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="austria-2022_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(laptime <span class="sc">&lt;=</span> <span class="dv">120</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(driver) <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">var =</span> <span class="fu">var</span>(laptime)) <span class="sc">%&gt;%</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(var) <span class="sc">%&gt;%</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(driver, var), <span class="at">y =</span> var), <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Driver"</span>, <span class="at">y =</span> <span class="st">"Variance"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="austria-2022_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(driver) <span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cumulative_laptime =</span> <span class="fu">cumsum</span>(laptime)) <span class="sc">%&gt;%</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(round) <span class="sc">%&gt;%</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time_to_lead =</span> cumulative_laptime <span class="sc">-</span> <span class="fu">min</span>(cumulative_laptime)) <span class="sc">%&gt;%</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> round, <span class="at">y =</span> time_to_lead, <span class="at">color =</span> driver)) <span class="ot">-&gt;</span> p</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-8315c1da6a04d479e71a" style="width:100%;height:464px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8315c1da6a04d479e71a">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22],"y":[4.39200592041016,6.06900787353516,8.80300140380859,12.2030029296875,14.3960037231445,26.5870056152344,28.6090087890625,40.3720092773438,42.3810119628906,44.5470123291016,46.8630142211914,48.2090148925781,47.4820175170898,47.8770217895508,50.2260284423828,61.8470306396484,64.1140289306641,59.5310287475586,62.7500228881836,67.7600250244141,68.4690246582031,69.0550231933594],"text":["round:  1<br />time_to_lead:   4.392006<br />driver: Benoit","round:  2<br />time_to_lead:   6.069008<br />driver: Benoit","round:  3<br />time_to_lead:   8.803001<br />driver: Benoit","round:  4<br />time_to_lead:  12.203003<br />driver: Benoit","round:  5<br />time_to_lead:  14.396004<br />driver: Benoit","round:  6<br />time_to_lead:  26.587006<br />driver: Benoit","round:  7<br />time_to_lead:  28.609009<br />driver: Benoit","round:  8<br />time_to_lead:  40.372009<br />driver: Benoit","round:  9<br />time_to_lead:  42.381012<br />driver: Benoit","round: 10<br />time_to_lead:  44.547012<br />driver: Benoit","round: 11<br />time_to_lead:  46.863014<br />driver: Benoit","round: 12<br />time_to_lead:  48.209015<br />driver: Benoit","round: 13<br />time_to_lead:  47.482018<br />driver: Benoit","round: 14<br />time_to_lead:  47.877022<br />driver: Benoit","round: 15<br />time_to_lead:  50.226028<br />driver: Benoit","round: 16<br />time_to_lead:  61.847031<br />driver: Benoit","round: 17<br />time_to_lead:  64.114029<br />driver: Benoit","round: 18<br />time_to_lead:  59.531029<br />driver: Benoit","round: 19<br />time_to_lead:  62.750023<br />driver: Benoit","round: 20<br />time_to_lead:  67.760025<br />driver: Benoit","round: 21<br />time_to_lead:  68.469025<br />driver: Benoit","round: 22<br />time_to_lead:  69.055023<br />driver: Benoit"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"Benoit","legendgroup":"Benoit","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21],"y":[11.7190017700195,16.3690032958984,27.4929962158203,34.1110000610352,39.1700057983398,44.1730041503906,71.8520050048828,79.1980056762695,96.1090087890625,102.378005981445,114.515007019043,118.570007324219,129.684005737305,135.719009399414,142.953010559082,155.117012023926,161.888008117676,165.210006713867,169.551002502441,173.331001281738,175.139999389648],"text":["round:  1<br />time_to_lead:  11.719002<br />driver: Eelco","round:  2<br />time_to_lead:  16.369003<br />driver: Eelco","round:  3<br />time_to_lead:  27.492996<br />driver: Eelco","round:  4<br />time_to_lead:  34.111000<br />driver: Eelco","round:  5<br />time_to_lead:  39.170006<br />driver: Eelco","round:  6<br />time_to_lead:  44.173004<br />driver: Eelco","round:  7<br />time_to_lead:  71.852005<br />driver: Eelco","round:  8<br />time_to_lead:  79.198006<br />driver: Eelco","round:  9<br />time_to_lead:  96.109009<br />driver: Eelco","round: 10<br />time_to_lead: 102.378006<br />driver: Eelco","round: 11<br />time_to_lead: 114.515007<br />driver: Eelco","round: 12<br />time_to_lead: 118.570007<br />driver: Eelco","round: 13<br />time_to_lead: 129.684006<br />driver: Eelco","round: 14<br />time_to_lead: 135.719009<br />driver: Eelco","round: 15<br />time_to_lead: 142.953011<br />driver: Eelco","round: 16<br />time_to_lead: 155.117012<br />driver: Eelco","round: 17<br />time_to_lead: 161.888008<br />driver: Eelco","round: 18<br />time_to_lead: 165.210007<br />driver: Eelco","round: 19<br />time_to_lead: 169.551003<br />driver: Eelco","round: 20<br />time_to_lead: 173.331001<br />driver: Eelco","round: 21<br />time_to_lead: 175.139999<br />driver: Eelco"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(219,142,0,1)","dash":"solid"},"hoveron":"points","name":"Eelco","legendgroup":"Eelco","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],"y":[7.25,163.263999938965,262.203994750977,389.095001220703,389.531005859375,389.030006408691,388.172004699707,388.870002746582,389.927001953125,392.334999084473,398.838996887207,399.428993225098,419.575996398926,419.291000366211,415.649002075195,416.359008789062,415.86100769043,422.42700958252],"text":["round:  1<br />time_to_lead:   7.250000<br />driver: Eerdt","round:  2<br />time_to_lead: 163.264000<br />driver: Eerdt","round:  3<br />time_to_lead: 262.203995<br />driver: Eerdt","round:  4<br />time_to_lead: 389.095001<br />driver: Eerdt","round:  5<br />time_to_lead: 389.531006<br />driver: Eerdt","round:  6<br />time_to_lead: 389.030006<br />driver: Eerdt","round:  7<br />time_to_lead: 388.172005<br />driver: Eerdt","round:  8<br />time_to_lead: 388.870003<br />driver: Eerdt","round:  9<br />time_to_lead: 389.927002<br />driver: Eerdt","round: 10<br />time_to_lead: 392.334999<br />driver: Eerdt","round: 11<br />time_to_lead: 398.838997<br />driver: Eerdt","round: 12<br />time_to_lead: 399.428993<br />driver: Eerdt","round: 13<br />time_to_lead: 419.575996<br />driver: Eerdt","round: 14<br />time_to_lead: 419.291000<br />driver: Eerdt","round: 15<br />time_to_lead: 415.649002<br />driver: Eerdt","round: 16<br />time_to_lead: 416.359009<br />driver: Eerdt","round: 17<br />time_to_lead: 415.861008<br />driver: Eerdt","round: 18<br />time_to_lead: 422.427010<br />driver: Eerdt"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(174,162,0,1)","dash":"solid"},"hoveron":"points","name":"Eerdt","legendgroup":"Eerdt","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21],"y":[19.5780029296875,30.6590042114258,37.2379989624023,41.5510025024414,44.0900039672852,48.8810043334961,51.3200073242188,56.9810028076172,59.7710037231445,63.7520065307617,66.0950088500977,68.7950057983398,68.5980072021484,68.3840103149414,77.4180145263672,95.004020690918,96.9550170898438,95.3930206298828,98.3310165405273,114.901016235352,141.826011657715],"text":["round:  1<br />time_to_lead:  19.578003<br />driver: gerald","round:  2<br />time_to_lead:  30.659004<br />driver: gerald","round:  3<br />time_to_lead:  37.237999<br />driver: gerald","round:  4<br />time_to_lead:  41.551003<br />driver: gerald","round:  5<br />time_to_lead:  44.090004<br />driver: gerald","round:  6<br />time_to_lead:  48.881004<br />driver: gerald","round:  7<br />time_to_lead:  51.320007<br />driver: gerald","round:  8<br />time_to_lead:  56.981003<br />driver: gerald","round:  9<br />time_to_lead:  59.771004<br />driver: gerald","round: 10<br />time_to_lead:  63.752007<br />driver: gerald","round: 11<br />time_to_lead:  66.095009<br />driver: gerald","round: 12<br />time_to_lead:  68.795006<br />driver: gerald","round: 13<br />time_to_lead:  68.598007<br />driver: gerald","round: 14<br />time_to_lead:  68.384010<br />driver: gerald","round: 15<br />time_to_lead:  77.418015<br />driver: gerald","round: 16<br />time_to_lead:  95.004021<br />driver: gerald","round: 17<br />time_to_lead:  96.955017<br />driver: gerald","round: 18<br />time_to_lead:  95.393021<br />driver: gerald","round: 19<br />time_to_lead:  98.331017<br />driver: gerald","round: 20<br />time_to_lead: 114.901016<br />driver: gerald","round: 21<br />time_to_lead: 141.826012<br />driver: gerald"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(100,178,0,1)","dash":"solid"},"hoveron":"points","name":"gerald","legendgroup":"gerald","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21],"y":[16.1669998168945,19.9339981079102,36.1479949951172,46.8320007324219,49.1380004882812,55.2129974365234,59.4059982299805,60.64599609375,62.3989944458008,64.8649978637695,67.8580017089844,94.6620025634766,112.817001342773,116.013999938965,117.944000244141,123.10400390625,129.378997802734,125.494995117188,129.701995849609,132.560997009277,165.343994140625],"text":["round:  1<br />time_to_lead:  16.167000<br />driver: giel","round:  2<br />time_to_lead:  19.933998<br />driver: giel","round:  3<br />time_to_lead:  36.147995<br />driver: giel","round:  4<br />time_to_lead:  46.832001<br />driver: giel","round:  5<br />time_to_lead:  49.138000<br />driver: giel","round:  6<br />time_to_lead:  55.212997<br />driver: giel","round:  7<br />time_to_lead:  59.405998<br />driver: giel","round:  8<br />time_to_lead:  60.645996<br />driver: giel","round:  9<br />time_to_lead:  62.398994<br />driver: giel","round: 10<br />time_to_lead:  64.864998<br />driver: giel","round: 11<br />time_to_lead:  67.858002<br />driver: giel","round: 12<br />time_to_lead:  94.662003<br />driver: giel","round: 13<br />time_to_lead: 112.817001<br />driver: giel","round: 14<br />time_to_lead: 116.014000<br />driver: giel","round: 15<br />time_to_lead: 117.944000<br />driver: giel","round: 16<br />time_to_lead: 123.104004<br />driver: giel","round: 17<br />time_to_lead: 129.378998<br />driver: giel","round: 18<br />time_to_lead: 125.494995<br />driver: giel","round: 19<br />time_to_lead: 129.701996<br />driver: giel","round: 20<br />time_to_lead: 132.560997<br />driver: giel","round: 21<br />time_to_lead: 165.343994<br />driver: giel"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,189,92,1)","dash":"solid"},"hoveron":"points","name":"giel","legendgroup":"giel","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21],"y":[10.9280014038086,15.7269973754883,25.9489898681641,32.3569946289062,38.0189971923828,44.9839935302734,73.5429916381836,80.4819869995117,87.9969863891602,93.4239883422852,103.308990478516,109.117988586426,114.093994140625,120.17699432373,126.346000671387,136.26700592041,142.971000671387,141.921005249023,175.000999450684,182.736000061035,189.939994812012],"text":["round:  1<br />time_to_lead:  10.928001<br />driver: joyce","round:  2<br />time_to_lead:  15.726997<br />driver: joyce","round:  3<br />time_to_lead:  25.948990<br />driver: joyce","round:  4<br />time_to_lead:  32.356995<br />driver: joyce","round:  5<br />time_to_lead:  38.018997<br />driver: joyce","round:  6<br />time_to_lead:  44.983994<br />driver: joyce","round:  7<br />time_to_lead:  73.542992<br />driver: joyce","round:  8<br />time_to_lead:  80.481987<br />driver: joyce","round:  9<br />time_to_lead:  87.996986<br />driver: joyce","round: 10<br />time_to_lead:  93.423988<br />driver: joyce","round: 11<br />time_to_lead: 103.308990<br />driver: joyce","round: 12<br />time_to_lead: 109.117989<br />driver: joyce","round: 13<br />time_to_lead: 114.093994<br />driver: joyce","round: 14<br />time_to_lead: 120.176994<br />driver: joyce","round: 15<br />time_to_lead: 126.346001<br />driver: joyce","round: 16<br />time_to_lead: 136.267006<br />driver: joyce","round: 17<br />time_to_lead: 142.971001<br />driver: joyce","round: 18<br />time_to_lead: 141.921005<br />driver: joyce","round: 19<br />time_to_lead: 175.000999<br />driver: joyce","round: 20<br />time_to_lead: 182.736000<br />driver: joyce","round: 21<br />time_to_lead: 189.939995<br />driver: joyce"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,193,167,1)","dash":"solid"},"hoveron":"points","name":"joyce","legendgroup":"joyce","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22],"y":[14.8740005493164,21.6709976196289,29.609992980957,37.6449966430664,43.9499969482422,53.2279968261719,60.9099960327148,66.7579956054688,73.1169967651367,79.3470001220703,85.0619964599609,89.4549942016602,90.2589950561523,93.0669937133789,94.2229995727539,99.4560012817383,107.416999816895,105.746002197266,111.390998840332,118.105995178223,121.523994445801,117.683990478516],"text":["round:  1<br />time_to_lead:  14.874001<br />driver: Lieneke","round:  2<br />time_to_lead:  21.670998<br />driver: Lieneke","round:  3<br />time_to_lead:  29.609993<br />driver: Lieneke","round:  4<br />time_to_lead:  37.644997<br />driver: Lieneke","round:  5<br />time_to_lead:  43.949997<br />driver: Lieneke","round:  6<br />time_to_lead:  53.227997<br />driver: Lieneke","round:  7<br />time_to_lead:  60.909996<br />driver: Lieneke","round:  8<br />time_to_lead:  66.757996<br />driver: Lieneke","round:  9<br />time_to_lead:  73.116997<br />driver: Lieneke","round: 10<br />time_to_lead:  79.347000<br />driver: Lieneke","round: 11<br />time_to_lead:  85.061996<br />driver: Lieneke","round: 12<br />time_to_lead:  89.454994<br />driver: Lieneke","round: 13<br />time_to_lead:  90.258995<br />driver: Lieneke","round: 14<br />time_to_lead:  93.066994<br />driver: Lieneke","round: 15<br />time_to_lead:  94.223000<br />driver: Lieneke","round: 16<br />time_to_lead:  99.456001<br />driver: Lieneke","round: 17<br />time_to_lead: 107.417000<br />driver: Lieneke","round: 18<br />time_to_lead: 105.746002<br />driver: Lieneke","round: 19<br />time_to_lead: 111.390999<br />driver: Lieneke","round: 20<br />time_to_lead: 118.105995<br />driver: Lieneke","round: 21<br />time_to_lead: 121.523994<br />driver: Lieneke","round: 22<br />time_to_lead: 117.683990<br />driver: Lieneke"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,186,222,1)","dash":"solid"},"hoveron":"points","name":"Lieneke","legendgroup":"Lieneke","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],"y":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"text":["round:  1<br />time_to_lead:   0.000000<br />driver: Mathijs","round:  2<br />time_to_lead:   0.000000<br />driver: Mathijs","round:  3<br />time_to_lead:   0.000000<br />driver: Mathijs","round:  4<br />time_to_lead:   0.000000<br />driver: Mathijs","round:  5<br />time_to_lead:   0.000000<br />driver: Mathijs","round:  6<br />time_to_lead:   0.000000<br />driver: Mathijs","round:  7<br />time_to_lead:   0.000000<br />driver: Mathijs","round:  8<br />time_to_lead:   0.000000<br />driver: Mathijs","round:  9<br />time_to_lead:   0.000000<br />driver: Mathijs","round: 10<br />time_to_lead:   0.000000<br />driver: Mathijs","round: 11<br />time_to_lead:   0.000000<br />driver: Mathijs","round: 12<br />time_to_lead:   0.000000<br />driver: Mathijs","round: 13<br />time_to_lead:   0.000000<br />driver: Mathijs","round: 14<br />time_to_lead:   0.000000<br />driver: Mathijs","round: 15<br />time_to_lead:   0.000000<br />driver: Mathijs","round: 16<br />time_to_lead:   0.000000<br />driver: Mathijs","round: 17<br />time_to_lead:   0.000000<br />driver: Mathijs","round: 18<br />time_to_lead:   0.000000<br />driver: Mathijs","round: 19<br />time_to_lead:   0.000000<br />driver: Mathijs","round: 20<br />time_to_lead:   0.000000<br />driver: Mathijs","round: 21<br />time_to_lead:   0.000000<br />driver: Mathijs","round: 22<br />time_to_lead:   0.000000<br />driver: Mathijs","round: 23<br />time_to_lead:   0.000000<br />driver: Mathijs"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,166,255,1)","dash":"solid"},"hoveron":"points","name":"Mathijs","legendgroup":"Mathijs","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],"y":[6.81999969482422,7.16899871826172,9.4169921875,11.8239974975586,11.8300018310547,13.0989990234375,13.3870010375977,15.8929977416992,16.7379989624023,26.4970016479492,28.9309997558594,34.7460021972656,33.8080062866211,34.172004699707,31.9980087280273,33.880012512207,34.0360107421875,30.8940124511719,31.4400100708008,46.4480056762695,46.8570022583008,41.6679992675781,43.0999984741211],"text":["round:  1<br />time_to_lead:   6.820000<br />driver: Paul","round:  2<br />time_to_lead:   7.168999<br />driver: Paul","round:  3<br />time_to_lead:   9.416992<br />driver: Paul","round:  4<br />time_to_lead:  11.823997<br />driver: Paul","round:  5<br />time_to_lead:  11.830002<br />driver: Paul","round:  6<br />time_to_lead:  13.098999<br />driver: Paul","round:  7<br />time_to_lead:  13.387001<br />driver: Paul","round:  8<br />time_to_lead:  15.892998<br />driver: Paul","round:  9<br />time_to_lead:  16.737999<br />driver: Paul","round: 10<br />time_to_lead:  26.497002<br />driver: Paul","round: 11<br />time_to_lead:  28.931000<br />driver: Paul","round: 12<br />time_to_lead:  34.746002<br />driver: Paul","round: 13<br />time_to_lead:  33.808006<br />driver: Paul","round: 14<br />time_to_lead:  34.172005<br />driver: Paul","round: 15<br />time_to_lead:  31.998009<br />driver: Paul","round: 16<br />time_to_lead:  33.880013<br />driver: Paul","round: 17<br />time_to_lead:  34.036011<br />driver: Paul","round: 18<br />time_to_lead:  30.894012<br />driver: Paul","round: 19<br />time_to_lead:  31.440010<br />driver: Paul","round: 20<br />time_to_lead:  46.448006<br />driver: Paul","round: 21<br />time_to_lead:  46.857002<br />driver: Paul","round: 22<br />time_to_lead:  41.667999<br />driver: Paul","round: 23<br />time_to_lead:  43.099998<br />driver: Paul"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(179,133,255,1)","dash":"solid"},"hoveron":"points","name":"Paul","legendgroup":"Paul","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21],"y":[22.4500045776367,35.922004699707,53.6860046386719,58.2040100097656,71.4050140380859,76.0230102539062,92.151008605957,98.3050079345703,103.105010986328,124.383010864258,137.604011535645,156.867012023926,162.96501159668,164.536010742188,193.854011535645,206.839012145996,212.347007751465,217.346008300781,229.127006530762,238.927001953125,243.139999389648],"text":["round:  1<br />time_to_lead:  22.450005<br />driver: rik","round:  2<br />time_to_lead:  35.922005<br />driver: rik","round:  3<br />time_to_lead:  53.686005<br />driver: rik","round:  4<br />time_to_lead:  58.204010<br />driver: rik","round:  5<br />time_to_lead:  71.405014<br />driver: rik","round:  6<br />time_to_lead:  76.023010<br />driver: rik","round:  7<br />time_to_lead:  92.151009<br />driver: rik","round:  8<br />time_to_lead:  98.305008<br />driver: rik","round:  9<br />time_to_lead: 103.105011<br />driver: rik","round: 10<br />time_to_lead: 124.383011<br />driver: rik","round: 11<br />time_to_lead: 137.604012<br />driver: rik","round: 12<br />time_to_lead: 156.867012<br />driver: rik","round: 13<br />time_to_lead: 162.965012<br />driver: rik","round: 14<br />time_to_lead: 164.536011<br />driver: rik","round: 15<br />time_to_lead: 193.854012<br />driver: rik","round: 16<br />time_to_lead: 206.839012<br />driver: rik","round: 17<br />time_to_lead: 212.347008<br />driver: rik","round: 18<br />time_to_lead: 217.346008<br />driver: rik","round: 19<br />time_to_lead: 229.127007<br />driver: rik","round: 20<br />time_to_lead: 238.927002<br />driver: rik","round: 21<br />time_to_lead: 243.139999<br />driver: rik"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(239,103,235,1)","dash":"solid"},"hoveron":"points","name":"rik","legendgroup":"rik","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],"y":[2.24800109863281,2.24700164794922,3.07099914550781,19.1880035400391,20.1700057983398,22.6640014648438,22.5690002441406,23.0830001831055,24.8830032348633,27.1710052490234,35.9880065917969,35.4380035400391,42.765007019043,55.0650100708008,51.9440155029297,53.3410186767578,53.9030151367188,48.4560165405273,49.2920150756836,50.046012878418,49.5580139160156,42.9620132446289,43.9440078735352],"text":["round:  1<br />time_to_lead:   2.248001<br />driver: Roeland","round:  2<br />time_to_lead:   2.247002<br />driver: Roeland","round:  3<br />time_to_lead:   3.070999<br />driver: Roeland","round:  4<br />time_to_lead:  19.188004<br />driver: Roeland","round:  5<br />time_to_lead:  20.170006<br />driver: Roeland","round:  6<br />time_to_lead:  22.664001<br />driver: Roeland","round:  7<br />time_to_lead:  22.569000<br />driver: Roeland","round:  8<br />time_to_lead:  23.083000<br />driver: Roeland","round:  9<br />time_to_lead:  24.883003<br />driver: Roeland","round: 10<br />time_to_lead:  27.171005<br />driver: Roeland","round: 11<br />time_to_lead:  35.988007<br />driver: Roeland","round: 12<br />time_to_lead:  35.438004<br />driver: Roeland","round: 13<br />time_to_lead:  42.765007<br />driver: Roeland","round: 14<br />time_to_lead:  55.065010<br />driver: Roeland","round: 15<br />time_to_lead:  51.944016<br />driver: Roeland","round: 16<br />time_to_lead:  53.341019<br />driver: Roeland","round: 17<br />time_to_lead:  53.903015<br />driver: Roeland","round: 18<br />time_to_lead:  48.456017<br />driver: Roeland","round: 19<br />time_to_lead:  49.292015<br />driver: Roeland","round: 20<br />time_to_lead:  50.046013<br />driver: Roeland","round: 21<br />time_to_lead:  49.558014<br />driver: Roeland","round: 22<br />time_to_lead:  42.962013<br />driver: Roeland","round: 23<br />time_to_lead:  43.944008<br />driver: Roeland"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(255,99,182,1)","dash":"solid"},"hoveron":"points","name":"Roeland","legendgroup":"Roeland","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.2283105022831,"r":7.30593607305936,"b":40.1826484018265,"l":43.1050228310502},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.1,24.1],"tickmode":"array","ticktext":["0","5","10","15","20"],"tickvals":[1.38777878078145e-17,5,10,15,20],"categoryorder":"array","categoryarray":["0","5","10","15","20"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"round","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-21.121350479126,443.548360061645],"tickmode":"array","ticktext":["0","100","200","300","400"],"tickvals":[0,100,200,300,400],"categoryorder":"array","categoryarray":["0","100","200","300","400"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"time_to_lead","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"driver","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"218e554c7db55":{"x":{},"y":{},"colour":{},"type":"scatter"}},"cur_data":"218e554c7db55","visdat":{"218e554c7db55":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> round, <span class="at">y =</span> laptime, <span class="at">group =</span> round))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="austria-2022_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">x =</span> laptime, <span class="at">group =</span> round))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="austria-2022_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">x =</span> laptime, <span class="at">group =</span> driver, <span class="at">color =</span> driver))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="austria-2022_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
