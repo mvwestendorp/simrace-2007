@@ -1,0 +1,23 @@
+project:
+  type: website
+
+execute:
+  echo: false
+  warning: false
+
+website:
+  title: "simrace"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - about.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+
+

@@ -1,8 +1,6 @@
 ---
-title: "Sim race analyse"
-output: html_notebook
+title: "Sim race Austria 2022"
 ---
-
 
 ```{r}
 library(readxl)
@@ -10,6 +8,8 @@ library(dplyr)
 library(ggplot2)
 library(lubridate)
 library(plotly)
+library(tidyr)
+library(kableExtra)
 ```
 
 ```{r}
@@ -24,28 +24,44 @@ df <- read.csv("data/simrace analyse.csv") %>%
   ungroup()
 ```
 
+# Race
+
+## Laptimes per driver
+
 ```{r}
+#| label: tbl-descriptive-stats
+#| tbl-cap: "Mean and median laptimes per driver"
+#| tbl-column: margin
 df %>%
 group_by(driver) %>%
-summarise(mean_laptime = mean(laptime), median_laptime=median(laptime))
+summarise(mean_laptime = mean(laptime), median_laptime=median(laptime)) %>%
+kable(col.names = c("Driver", "Mean laptime", "Median laptime"))
 ```
 
 ```{r}
+#| label: fig-ridge-laptimes
+#| fig-cap: "Distribution of laptimes per driver"
+library(ggridges)
 df %>%
   filter(laptime <= 120) %>%
-  ggplot() +
-  geom_boxplot(aes(x = driver, y = laptime, group = driver)) -> p
-ggplotly(p)
+  ggplot(aes(x = laptime, y = driver)) +
+  geom_density_ridges()
 ```
 
 ```{r}
+#| label: fig-sector-times
+#| fig-cap: "Sector times per driver"
 df %>%
+  filter(laptime <= 120) %>%
   pivot_longer(c("Sector_1", "Sector_2", "Sector_3")) %>%
-  ggplot() +
-  geom_boxplot(aes(x = driver, y = value, group = driver)) +
-  facet_wrap(~name, ncol = 1, scale = 'free_y')
+  ggplot(aes(x = value, y = driver, group = interaction(driver, name), fill=name)) +
+  geom_density_ridges()
 ```
+
+
 ```{r}
+#| label: fig-driver-variance
+#| fig-cap: "Laptime variance per driver (excluding laptimes over 2 minutes)"
 df %>%
   filter(laptime <= 120) %>%
   group_by(driver) %>%
@@ -55,7 +71,12 @@ df %>%
   geom_bar(aes(x = reorder(driver, var), y = var), stat = "identity") +
   labs(x = "Driver", y = "Variance")
 ```
+
+## Race evolution
+
 ```{r}
+#| label: fig-race-evolution
+#| fig-cap: "Evolution of time to lead during the race"
 df %>%
   group_by(driver) %>%
   mutate(cumulative_laptime = cumsum(laptime)) %>%
@@ -68,16 +89,23 @@ ggplotly(p)
 ```
 
 ```{r}
+#| label: fig-laptime-evolution
+#| fig-cap: "Laptime evolution over the race"
 df %>%
+  filter(laptime <= 120) %>%
   ggplot() +
-  geom_boxplot(aes(x = round, y = laptime, group = round))
-df %>%
-  ggplot() +
-  geom_density(aes(x = laptime, group = round))
+  geom_boxplot(aes(x = round, y = laptime, group = round)) +
+  geom_smooth(aes(x= round, y=laptime))
 ```
 
 ```{r}
+#| label: fig-sector-evolution
+#| fig-cap: "Sector time evolution over the race"
 df %>%
-  ggplot() +
-  geom_density(aes(x = laptime, group = driver, color = driver))
+  filter(laptime <= 120) %>%
+  pivot_longer(c("Sector_1", "Sector_2", "Sector_3")) %>%
+  ggplot(aes(x = value, y = round, group = interaction(round, name), fill=name)) +
+  geom_density_ridges()
 ```
+
+
