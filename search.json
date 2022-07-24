@@ -14,10 +14,17 @@
     "text": "Austria 2022"
   },
   {
-    "objectID": "austria-2022.html",
-    "href": "austria-2022.html",
-    "title": "Sim race analyse",
-    "section": "",
-    "text": "df <- read.csv(\"data/simrace analyse.csv\") %>%\n  mutate(laptime = minute(parse_date_time(laptime, \"%M:%OS\")) * 60 + second(parse_date_time(laptime, \"%M:%OS\")),\n         Sector_1 = minute(parse_date_time(Sector_1, \"%M:%OS\")) * 60 + second(parse_date_time(Sector_1, \"%M:%OS\")),\n         Sector_2 = minute(parse_date_time(Sector_2, \"%M:%OS\")) * 60 + second(parse_date_time(Sector_2, \"%M:%OS\")),\n         Sector_3 = minute(parse_date_time(Sector_3, \"%M:%OS\")) * 60 + second(parse_date_time(Sector_3, \"%M:%OS\"))) %>%\n  group_by(driver) %>%\n  mutate(round = max(round) - round + 1) %>%\n  arrange(driver,round) %>%\n  ungroup()\n\n\ndf %>%\ngroup_by(driver) %>%\nsummarise(mean_laptime = mean(laptime), median_laptime=median(laptime))\n\n# A tibble: 11 × 3\n   driver  mean_laptime median_laptime\n   <chr>          <dbl>          <dbl>\n 1 Benoit          71.6           69.6\n 2 Eelco           76.5           74.9\n 3 Eerdt           91.8           68.7\n 4 gerald          74.9           71.5\n 5 giel            76.0           72.0\n 6 joyce           77.2           74.6\n 7 Lieneke         73.8           73.3\n 8 Mathijs         68.4           67.5\n 9 Paul            70.2           68.8\n10 rik             79.7           78.8\n11 Roeland         70.3           68.2\n\n\n\ndf %>%\n  filter(laptime <= 120) %>%\n  ggplot() +\n  geom_boxplot(aes(x = driver, y = laptime, group = driver)) -> p\nggplotly(p)\n\n\n\n\n\n\ndf %>%\n  pivot_longer(c(\"Sector_1\", \"Sector_2\", \"Sector_3\")) %>%\n  ggplot() +\n  geom_boxplot(aes(x = driver, y = value, group = driver)) +\n  facet_wrap(~name, ncol = 1, scale = 'free_y')\n\nWarning: Removed 9 rows containing non-finite values (stat_boxplot).\n\n\n\n\n\n\ndf %>%\n  filter(laptime <= 120) %>%\n  group_by(driver) %>%\n  summarise(var = var(laptime)) %>%\n  arrange(var) %>%\n  ggplot() +\n  geom_bar(aes(x = reorder(driver, var), y = var), stat = \"identity\") +\n  labs(x = \"Driver\", y = \"Variance\")\n\n\n\n\n\ndf %>%\n  group_by(driver) %>%\n  mutate(cumulative_laptime = cumsum(laptime)) %>%\n  group_by(round) %>%\n  mutate(time_to_lead = cumulative_laptime - min(cumulative_laptime)) %>%\n  ungroup() %>%\n  ggplot() +\n  geom_line(aes(x = round, y = time_to_lead, color = driver)) -> p\nggplotly(p)\n\n\n\n\n\n\ndf %>%\n  ggplot() +\n  geom_boxplot(aes(x = round, y = laptime, group = round))\n\n\n\ndf %>%\n  ggplot() +\n  geom_density(aes(x = laptime, group = round))\n\n\n\n\n\ndf %>%\n  ggplot() +\n  geom_density(aes(x = laptime, group = driver, color = driver))"
+    "objectID": "austria-2022.html#laptimes-per-driver",
+    "href": "austria-2022.html#laptimes-per-driver",
+    "title": "Sim race Austria 2022",
+    "section": "Laptimes per driver",
+    "text": "Laptimes per driver\n\n\n\n\n\nTable 1:  Mean and median laptimes per driver \n \n  \n    Driver \n    Mean laptime \n    Median laptime \n  \n \n\n  \n    Benoit \n    71.57605 \n    69.6260 \n  \n  \n    Eelco \n    76.51176 \n    74.8700 \n  \n  \n    Eerdt \n    91.81350 \n    68.6740 \n  \n  \n    gerald \n    74.92538 \n    71.5000 \n  \n  \n    giel \n    76.04529 \n    72.0280 \n  \n  \n    joyce \n    77.21652 \n    74.6430 \n  \n  \n    Lieneke \n    73.78645 \n    73.3135 \n  \n  \n    Mathijs \n    68.37448 \n    67.5050 \n  \n  \n    Paul \n    70.24839 \n    68.8220 \n  \n  \n    rik \n    79.74986 \n    78.8480 \n  \n  \n    Roeland \n    70.28509 \n    68.2080 \n  \n\n\n\n\n\n\n\n\n\n\nFigure 1: Distribution of laptimes per driver\n\n\n\n\n\n\n\n\n\nFigure 2: Sector times per driver\n\n\n\n\n\n\n\n\n\nFigure 3: Laptime variance per driver (excluding laptimes over 2 minutes)"
+  },
+  {
+    "objectID": "austria-2022.html#race-evolution",
+    "href": "austria-2022.html#race-evolution",
+    "title": "Sim race Austria 2022",
+    "section": "Race evolution",
+    "text": "Race evolution\n\n\n\n\n\nFigure 4: Evolution of time to lead during the race\n\n\n\n\n\n\n\n\nFigure 5: Laptime evolution over the race\n\n\n\n\n\n\n\n\n\nFigure 6: Sector time evolution over the race"
   }
 ]
