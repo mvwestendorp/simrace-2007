@@ -10,6 +10,7 @@ library(lubridate)
 library(plotly)
 library(tidyr)
 library(kableExtra)
+library(DT)
 ```
 
 ```{r}
@@ -22,6 +23,14 @@ df <- read.csv("data/simrace analyse.csv") %>%
   mutate(round = max(round) - round + 1) %>%
   arrange(driver,round) %>%
   ungroup()
+```
+
+```{r}
+df  %>%
+   group_by(driver) %>%
+  arrange(desc(laptime)) %>%
+  select(-track, -competition, -date) %>%
+  datatable(filter= 'top')
 ```
 
 # Race
@@ -43,7 +52,9 @@ kable(col.names = c("Driver", "Mean laptime", "Median laptime"))
 #| fig-cap: "Distribution of laptimes per driver"
 library(ggridges)
 df %>%
-  filter(laptime <= 120) %>%
+  group_by(driver) %>%
+  arrange(desc(laptime)) %>%
+  filter(row_number() <= 6, laptime <= 120) %>%
   ggplot(aes(x = laptime, y = driver)) +
   geom_density_ridges()
 ```
@@ -52,7 +63,9 @@ df %>%
 #| label: fig-sector-times
 #| fig-cap: "Sector times per driver"
 df %>%
-  filter(laptime <= 120) %>%
+  group_by(driver) %>%
+  arrange(desc(laptime)) %>%
+  filter(row_number() <= 6, laptime <= 120) %>%
   pivot_longer(c("Sector_1", "Sector_2", "Sector_3")) %>%
   ggplot(aes(x = value, y = driver, group = interaction(driver, name), fill=name)) +
   geom_density_ridges()
@@ -63,7 +76,9 @@ df %>%
 #| label: fig-driver-variance
 #| fig-cap: "Laptime variance per driver (excluding laptimes over 2 minutes)"
 df %>%
-  filter(laptime <= 120) %>%
+  group_by(driver) %>%
+  arrange(desc(laptime)) %>%
+  filter(row_number() <= 6, laptime <= 120) %>%
   group_by(driver) %>%
   summarise(var = var(laptime)) %>%
   arrange(var) %>%
@@ -92,7 +107,9 @@ ggplotly(p)
 #| label: fig-laptime-evolution
 #| fig-cap: "Laptime evolution over the race"
 df %>%
-  filter(laptime <= 120) %>%
+  group_by(driver) %>%
+  arrange(desc(laptime)) %>%
+  filter(row_number() <= 6, laptime <= 120) %>%
   ggplot() +
   geom_boxplot(aes(x = round, y = laptime, group = round)) +
   geom_smooth(aes(x= round, y=laptime))
@@ -102,7 +119,9 @@ df %>%
 #| label: fig-sector-evolution
 #| fig-cap: "Sector time evolution over the race"
 df %>%
-  filter(laptime <= 120) %>%
+  group_by(driver) %>%
+  arrange(desc(laptime)) %>%
+  filter(row_number() <= 6, laptime <= 120) %>%
   pivot_longer(c("Sector_1", "Sector_2", "Sector_3")) %>%
   ggplot(aes(x = value, y = round, group = interaction(round, name), fill=name)) +
   geom_density_ridges()
