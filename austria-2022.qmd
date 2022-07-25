@@ -28,7 +28,7 @@ df <- read.csv("data/simrace analyse.csv") %>%
 ```{r}
 df  %>%
    group_by(driver) %>%
-  arrange(desc(laptime)) %>%
+  arrange(laptime) %>%
   select(-track, -competition, -date) %>%
   datatable(filter= 'top')
 ```
@@ -53,7 +53,7 @@ kable(col.names = c("Driver", "Mean laptime", "Median laptime"))
 library(ggridges)
 df %>%
   group_by(driver) %>%
-  arrange(desc(laptime)) %>%
+  arrange(laptime) %>%
   filter(row_number() <= 6, laptime <= 120) %>%
   ggplot(aes(x = laptime, y = driver)) +
   geom_density_ridges()
@@ -64,7 +64,7 @@ df %>%
 #| fig-cap: "Sector times per driver"
 df %>%
   group_by(driver) %>%
-  arrange(desc(laptime)) %>%
+  arrange(laptime) %>%
   filter(row_number() <= 6, laptime <= 120) %>%
   pivot_longer(c("Sector_1", "Sector_2", "Sector_3")) %>%
   ggplot(aes(x = value, y = driver, group = interaction(driver, name), fill=name)) +
@@ -77,7 +77,7 @@ df %>%
 #| fig-cap: "Laptime variance per driver (excluding laptimes over 2 minutes)"
 df %>%
   group_by(driver) %>%
-  arrange(desc(laptime)) %>%
+  arrange(laptime) %>%
   filter(row_number() <= 6, laptime <= 120) %>%
   group_by(driver) %>%
   summarise(var = var(laptime)) %>%
@@ -108,7 +108,7 @@ ggplotly(p)
 #| fig-cap: "Laptime evolution over the race"
 df %>%
   group_by(driver) %>%
-  arrange(desc(laptime)) %>%
+  arrange(laptime) %>%
   filter(row_number() <= 6, laptime <= 120) %>%
   ggplot() +
   geom_boxplot(aes(x = round, y = laptime, group = round)) +
@@ -120,7 +120,7 @@ df %>%
 #| fig-cap: "Sector time evolution over the race"
 df %>%
   group_by(driver) %>%
-  arrange(desc(laptime)) %>%
+  arrange(laptime) %>%
   filter(row_number() <= 6, laptime <= 120) %>%
   pivot_longer(c("Sector_1", "Sector_2", "Sector_3")) %>%
   ggplot(aes(x = value, y = round, group = interaction(round, name), fill=name)) +
