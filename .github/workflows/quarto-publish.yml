@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies Ubuntu
         shell: bash
         run: |
-          sudo apt-get install libcurl4-openssl-dev -y
+          sudo apt-get update && sudo apt-get install libcurl4-openssl-dev -y
       - name: Set RENV_PATHS_ROOT
         shell: bash
         run: |
