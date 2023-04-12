@@ -1,17 +1,10 @@
 [
   {
-    "objectID": "austria-2022.html#laptimes-per-driver",
-    "href": "austria-2022.html#laptimes-per-driver",
-    "title": "Sim race Austria 2022",
-    "section": "Laptimes per driver",
-    "text": "Laptimes per driver\n\n\n\n\n\nTable 1:  Mean and median laptimes per driver \n \n  \n    Driver \n    Mean laptime \n    Median laptime \n  \n \n\n  \n    Benoit \n    71.57605 \n    69.6260 \n  \n  \n    Eelco \n    76.51176 \n    74.8700 \n  \n  \n    Eerdt \n    91.81350 \n    68.6740 \n  \n  \n    gerald \n    74.92538 \n    71.5000 \n  \n  \n    giel \n    76.04529 \n    72.0280 \n  \n  \n    joyce \n    77.21652 \n    74.6430 \n  \n  \n    Lieneke \n    73.78645 \n    73.3135 \n  \n  \n    Mathijs \n    68.37448 \n    67.5050 \n  \n  \n    Paul \n    70.24839 \n    68.8220 \n  \n  \n    rik \n    79.74986 \n    78.8480 \n  \n  \n    Roeland \n    70.28509 \n    68.2080 \n  \n\n\n\n\n\n\n\n\n\n\nFigure 1: Distribution of laptimes per driver\n\n\n\n\n\n\n\n\n\nFigure 2: Sector times per driver\n\n\n\n\n\n\n\n\n\nFigure 3: Laptime variance per driver (excluding laptimes over 2 minutes)"
-  },
-  {
-    "objectID": "austria-2022.html#race-evolution",
-    "href": "austria-2022.html#race-evolution",
-    "title": "Sim race Austria 2022",
-    "section": "Race evolution",
-    "text": "Race evolution\n\n\n\n\n\nFigure 4: Evolution of time to lead during the race\n\n\n\n\n\n\n\n\nFigure 5: Laptime evolution over the race\n\n\n\n\n\n\n\n\n\nFigure 6: Sector time evolution over the race"
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "simrace",
+    "section": "",
+    "text": "Races\n\nAustria 2022"
   },
   {
     "objectID": "about.html",
@@ -21,10 +14,17 @@
     "text": "About this site"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "simrace",
-    "section": "",
-    "text": "Austria 2022"
+    "objectID": "austria-2022.html#laptimes-per-driver",
+    "href": "austria-2022.html#laptimes-per-driver",
+    "title": "Sim race Austria 2022",
+    "section": "Laptimes per driver",
+    "text": "Laptimes per driver\n\n\n\n\n\nTable 1:  Mean and median laptimes per driver \n \n  \n    Driver \n    Mean laptime \n    Median laptime \n  \n \n\n  \n    Benoit \n    71.57605 \n    69.6260 \n  \n  \n    Eelco \n    76.51176 \n    74.8700 \n  \n  \n    Eerdt \n    91.81350 \n    68.6740 \n  \n  \n    gerald \n    74.92538 \n    71.5000 \n  \n  \n    giel \n    76.04529 \n    72.0280 \n  \n  \n    joyce \n    77.21652 \n    74.6430 \n  \n  \n    Lieneke \n    73.78645 \n    73.3135 \n  \n  \n    Mathijs \n    68.37448 \n    67.5050 \n  \n  \n    Paul \n    70.24839 \n    68.8220 \n  \n  \n    rik \n    79.74986 \n    78.8480 \n  \n  \n    Roeland \n    70.28509 \n    68.2080 \n  \n\n\n\n\n\n\n\n\n\n\nFigure 1: Distribution of laptimes per driver\n\n\n\n\n\n\n\n\n\nFigure 2: Sector times per driver\n\n\n\n\n\n\n\n\n\nFigure 3: Laptime variance per driver (excluding laptimes over 2 minutes)"
+  },
+  {
+    "objectID": "austria-2022.html#race-evolution",
+    "href": "austria-2022.html#race-evolution",
+    "title": "Sim race Austria 2022",
+    "section": "Race evolution",
+    "text": "Race evolution\n\n\n\n\n\nFigure 4: Evolution of time to lead during the race\n\n\n\n\n\n\n\n\nFigure 5: Laptime evolution over the race\n\n\n\n\n\n\n\n\n\nFigure 6: Sector time evolution over the race"
   }
 ]
